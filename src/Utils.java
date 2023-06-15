@@ -25,7 +25,10 @@ public class Utils {
 
         Scanner scanner = new Scanner(System.in);
         int opcao = scanner.nextInt();
-        if(opcao == 1){
+        if (opcao == 0){
+            sair();
+        }
+        else if(opcao == 1){
             submenuPrint();
         }
         else if(opcao == 2){
@@ -50,7 +53,7 @@ public class Utils {
         System.out.print("Digite opcao: ");
     }
 
-    public static void submenuPrint1() {
+    public static void submenuPrint1() throws ClassNotFoundException, SQLException{
         System.out.println("\n+-----------------SUBMENU DEPARTAMENTOS------------------+");
         System.out.println("| 0 - Sair da aplicação                                 |");
         System.out.println("| 1 - Voltar ao menu incial                             |");
@@ -60,6 +63,19 @@ public class Utils {
         System.out.println("| 5 - Listar departamentos                              |");
         System.out.println("+-------------------------------------------------------+");
         System.out.print("Digite opcao: ");
+
+        Scanner scanner = new Scanner(System.in);
+        int opcao = scanner.nextInt();
+        if (opcao == 0){
+            sair();
+        }
+        else if (opcao == 1){
+            menuPrint(); 
+            System.out.print("Digite id: ");
+            int iddepartamento = scanner.nextInt();
+            
+        }
+
     }
 
     public static void submenuPrint2() {
