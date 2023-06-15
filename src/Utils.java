@@ -13,12 +13,48 @@ public class Utils {
 
     // Metodo para imprimir Menu
     public static void menuPrint(){
-        System.out.println("+------------------------ MENU -------------------------+");
-        System.out.println("| 0 - Sair da aplicação                                  |");
-        System.out.println("| 1 - Funcionários             |");
-        System.out.println("| 2 - Departamentos |");
-        System.out.println("| 3 - Relatórios         |");
+        System.out.println("+---------------------MENU INICIAL----------------------+");
+        System.out.println("| 0 - Sair da aplicação                                 |");
+        System.out.println("| 1 - Funcionarios                                      |");
+        System.out.println("| 2 - Departamentos                                     |");
+        System.out.println("| 3 - Relatórios                                        |");
         System.out.println("+-------------------------------------------------------+");
+        System.out.print("Digite opcao: ");
+    }
+    // Metodo para imprimir submenu
+    public static void submenuPrint(){
+        System.out.println("\n+-----------------SUBMENU FUNCIONARIOS------------------+");
+        System.out.println("| 0 - Sair da aplicação                                 |");
+        System.out.println("| 1 - Voltar ao menu incial                             |");
+        System.out.println("| 2 - Pesquisar funcionários por ID                     |");
+        System.out.println("| 3 - Pesquisar funcionários por nome                   |");
+        System.out.println("| 4 - Listar funcionários                               |");
+        System.out.println("| 5 - Listar contactos de funcionários                  |");
+        System.out.println("+-------------------------------------------------------+");
+        System.out.print("Digite opcao: ");
+    }
+
+    public static void submenuPrint1(){
+        System.out.println("\n+-----------------SUBMENU DEPARTAMENTOS------------------+");
+        System.out.println("| 0 - Sair da aplicação                                 |");
+        System.out.println("| 1 - Voltar ao menu incial                             |");
+        System.out.println("| 2 - Pesquisar departamento por ID                     |");
+        System.out.println("| 3 - Pesquisar departamento por nome                   |");
+        System.out.println("| 4 - Alterar localização do departamento               |");
+        System.out.println("| 5 - Listar departamentos                              |");
+        System.out.println("+-------------------------------------------------------+");
+        System.out.print("Digite opcao: ");
+    }
+
+    public static void submenuPrint2(){
+        System.out.println("\n+-----------------SUBMENU RELATORIOS--------------------------+");
+        System.out.println("| 0 - Sair da aplicação                                      |");
+        System.out.println("| 1 - Voltar ao menu incial                                  |");
+        System.out.println("| 2 - Relatório: Gerentes e funcionários por departamento    |");
+        System.out.println("| 3 - Relatório: Contrato e salário de funcionários          |");
+        System.out.println("| 4 - Relatório: Funcionários contratados por ano            |");
+        System.out.println("| 5 - Relatório: Funcionários com salário MIN e MAX          |");
+        System.out.println("+------------------------------------------------------------+");
         System.out.print("Digite opcao: ");
     }
 
