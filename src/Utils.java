@@ -86,7 +86,7 @@ public class Utils {
     }
 
     public static void submenuPrint1() throws ClassNotFoundException, SQLException {
-        System.out.println("\n+-----------------SUBMENU DEPARTAMENTOS------------------+");
+        System.out.println("\n+-----------------SUBMENU DEPARTAMENTOS-----------------+");
         System.out.println("| 0 - Sair da aplicação                                 |");
         System.out.println("| 1 - Voltar ao menu incial                             |");
         System.out.println("| 2 - Pesquisar departamento por ID                     |");
@@ -108,10 +108,23 @@ public class Utils {
             case 2:
                 System.out.print("Digite id: ");
                 int iddepartamento = scanner.nextInt();
+                try {
+                getDepartamentos(null, "department_id = " + String.valueOf(iddepartamento));
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha a obter os departamentos! ");
+                    e.printStackTrace();
+                }
                 break;
             case 3:
                 System.out.print("Digite o nome: ");
                 float nomedepartamento = scanner.nextFloat();
+                break;
+            case 4:
+
+                 break;
+
+            case 5:
+
                 break;
 
         }
@@ -120,7 +133,7 @@ public class Utils {
     }
 
     public static void submenuPrint2() {
-        System.out.println("\n+-----------------SUBMENU RELATORIOS--------------------------+");
+        System.out.println("\n+----------------SUBMENU RELATORIOS-------------------------+");
         System.out.println("| 0 - Sair da aplicação                                      |");
         System.out.println("| 1 - Voltar ao menu incial                                  |");
         System.out.println("| 2 - Relatório: Gerentes e funcionários por departamento    |");
@@ -187,6 +200,44 @@ public class Utils {
             // Retrieve by column name
             int id = rs.getInt("employee_id");
             String d = rs.getString("first_name");
+            // Display values
+            System.out.printf("| %-2d | %-20s | %n", id, d);
+        }
+        System.out.println("-----------------------------\n");
+        rs.close();
+        stmt.close();
+
+    }
+
+    public static void getDepartamentos(String seccoes, String filtrar) throws SQLException, Exception {
+        MySQLJDBC instance = MySQLJDBC.getInstance();
+        Connection connection = instance.getConnection();
+        // System.out.println(connection);
+
+        if (seccoes == null) {
+            seccoes = "*";
+        }
+
+        if (filtrar != null) {
+            filtrar = "WHERE " + filtrar;
+        }
+        else{
+            filtrar = "";
+        }
+
+        String query = "SELECT " + seccoes + " FROM departments " + filtrar;
+        // Create Statement
+        Statement stmt = connection.createStatement();
+        // Get Result Set
+        ResultSet rs = stmt.executeQuery(query);
+        System.out.println("\n------------------------------");
+        System.out.println("| ID |    DEPARTAMENTOS        |");
+        System.out.println("--------------------------------");
+        // Extract data from Result Set
+        while (rs.next()) {
+            // Retrieve by column name
+            int id = rs.getInt("department_id");
+            String d = rs.getString("department_name");
             // Display values
             System.out.printf("| %-2d | %-20s | %n", id, d);
         }
