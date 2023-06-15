@@ -34,7 +34,6 @@ public class Utils {
         else if(opcao == 3){
             submenuPrint2();
         }
-
     }
 
 
