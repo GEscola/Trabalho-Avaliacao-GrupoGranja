@@ -1,6 +1,10 @@
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Scanner;
+
+import javax.sql.rowset.serial.SerialDatalink;
+
 import java.sql.SQLException;
 
 public class Utils {
@@ -20,6 +24,17 @@ public class Utils {
         System.out.println("| 3 - Relatórios                                        |");
         System.out.println("+-------------------------------------------------------+");
         System.out.print("Digite opcao: ");
+    
+        Scanner scanner = new Scanner(System.in);
+        int opcao = scanner.nextInt();
+            if (opcao == 1) {
+        submenuPrint();
+    } else {
+        System.out.println("Opção inválida. Tente novamente.");
+            }
+            if (opcao == 0) {
+                sair();
+                
     }
     // Metodo para imprimir submenu
     public static void submenuPrint(){
@@ -31,7 +46,9 @@ public class Utils {
         System.out.println("| 4 - Listar funcionários                               |");
         System.out.println("| 5 - Listar contactos de funcionários                  |");
         System.out.println("+-------------------------------------------------------+");
-        System.out.print("Digite opcao: ");
+
+
+        }
     }
 
     // Metodo Listar distritos
