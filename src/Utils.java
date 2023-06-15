@@ -34,6 +34,30 @@ public class Utils {
         System.out.print("Digite opcao: ");
     }
 
+    public static void submenuPrint1(){
+        System.out.println("\n+-----------------SUBMENU DEPARTAMENTOS------------------+");
+        System.out.println("| 0 - Sair da aplicação                                 |");
+        System.out.println("| 1 - Voltar ao menu incial                             |");
+        System.out.println("| 2 - Pesquisar departamento por ID                     |");
+        System.out.println("| 3 - Pesquisar departamento por nome                   |");
+        System.out.println("| 4 - Alterar localização do departamento               |");
+        System.out.println("| 5 - Listar departamentos                              |");
+        System.out.println("+-------------------------------------------------------+");
+        System.out.print("Digite opcao: ");
+    }
+
+    public static void submenuPrint2(){
+        System.out.println("\n+-----------------SUBMENU RELATORIOS--------------------------+");
+        System.out.println("| 0 - Sair da aplicação                                      |");
+        System.out.println("| 1 - Voltar ao menu incial                                  |");
+        System.out.println("| 2 - Relatório: Gerentes e funcionários por departamento    |");
+        System.out.println("| 3 - Relatório: Contrato e salário de funcionários          |");
+        System.out.println("| 4 - Relatório: Funcionários contratados por ano            |");
+        System.out.println("| 5 - Relatório: Funcionários com salário MIN e MAX          |");
+        System.out.println("+------------------------------------------------------------+");
+        System.out.print("Digite opcao: ");
+    }
+
     // Metodo Listar distritos
     public static void getDistritos() throws SQLException, Exception {
         MySQLJDBC instance = MySQLJDBC.getInstance();

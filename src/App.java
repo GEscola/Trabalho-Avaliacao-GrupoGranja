@@ -3,5 +3,7 @@ public class App {
         System.out.println("Hello, World!");
         Utils.menuPrint();
         Utils.submenuPrint();
+        Utils.submenuPrint1();
+        Utils.submenuPrint2();
     }
 }
