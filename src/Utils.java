@@ -33,6 +33,7 @@ public class Utils {
         System.out.println("+-------------------------------------------------------+");
         System.out.print("Digite opcao: ");
     }
+    
 
     public static void submenuPrint1(){
         System.out.println("\n+-----------------SUBMENU DEPARTAMENTOS------------------+");
