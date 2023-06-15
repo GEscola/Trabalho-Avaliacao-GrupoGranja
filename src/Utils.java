@@ -25,20 +25,23 @@ public class Utils {
 
         Scanner scanner = new Scanner(System.in);
         int opcao = scanner.nextInt();
-        if (opcao == 0){
-            sair();
-        }
-        else if(opcao == 1){
-            submenuPrint();
-        }
-        else if(opcao == 2){
-            submenuPrint1();
-        }
-        else if(opcao == 3){
-            submenuPrint2();
-        }
-    }
+        switch (opcao) {
+            case 0:
+                sair();
+                break;
+            case 1:
+                submenuPrint();
+                break;
+            case 2:
+                submenuPrint1();
+                break;
+            case 3:
+                submenuPrint2();
+                break;
 
+        }
+
+    }
 
     // Metodo para imprimir submenu
     public static void submenuPrint() {
@@ -53,7 +56,7 @@ public class Utils {
         System.out.print("Digite opcao: ");
     }
 
-    public static void submenuPrint1() throws ClassNotFoundException, SQLException{
+    public static void submenuPrint1() throws ClassNotFoundException, SQLException {
         System.out.println("\n+-----------------SUBMENU DEPARTAMENTOS------------------+");
         System.out.println("| 0 - Sair da aplicação                                 |");
         System.out.println("| 1 - Voltar ao menu incial                             |");
@@ -66,15 +69,24 @@ public class Utils {
 
         Scanner scanner = new Scanner(System.in);
         int opcao = scanner.nextInt();
-        if (opcao == 0){
-            sair();
+        switch (opcao) {
+            case 0:
+                sair();
+                break;
+            case 1:
+                menuPrint();
+                break;
+            case 2:
+                System.out.print("Digite id: ");
+                int iddepartamento = scanner.nextInt();
+                break;
+            case 3:
+                System.out.print("Digite o nome: ");
+                float nomedepartamento = scanner.nextFloat();
+                break;
+
         }
-        else if (opcao == 1){
-            menuPrint(); 
-            System.out.print("Digite id: ");
-            int iddepartamento = scanner.nextInt();
-            
-        }
+        
 
     }
 
@@ -104,7 +116,7 @@ public class Utils {
         System.out.println("| ID |    DISTRITO          |");
         System.out.println("-----------------------------");
         // Extract data from Result Set
-            while (rs.next()) {
+        while (rs.next()) {
             // Retrieve by column name
             int id = rs.getInt("id_distrito");
             String d = rs.getString("nome");
