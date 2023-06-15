@@ -57,7 +57,7 @@ public class Utils {
     }
 
     public static void submenuPrint1() throws ClassNotFoundException, SQLException {
-        System.out.println("\n+-----------------SUBMENU DEPARTAMENTOS------------------+");
+        System.out.println("\n+-----------------SUBMENU DEPARTAMENTOS-----------------+");
         System.out.println("| 0 - Sair da aplicação                                 |");
         System.out.println("| 1 - Voltar ao menu incial                             |");
         System.out.println("| 2 - Pesquisar departamento por ID                     |");
@@ -84,6 +84,13 @@ public class Utils {
                 System.out.print("Digite o nome: ");
                 float nomedepartamento = scanner.nextFloat();
                 break;
+            case 4:
+
+                 break;
+
+            case 5:
+
+                break;
 
         }
         
@@ -91,7 +98,7 @@ public class Utils {
     }
 
     public static void submenuPrint2() {
-        System.out.println("\n+-----------------SUBMENU RELATORIOS--------------------------+");
+        System.out.println("\n+----------------SUBMENU RELATORIOS-------------------------+");
         System.out.println("| 0 - Sair da aplicação                                      |");
         System.out.println("| 1 - Voltar ao menu incial                                  |");
         System.out.println("| 2 - Relatório: Gerentes e funcionários por departamento    |");
