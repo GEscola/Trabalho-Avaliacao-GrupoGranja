@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -62,22 +63,35 @@ public class Utils {
                 sair();
                 break;
             case 1:
-                // menuPrint();
+                menuPrint();
                 break;
             case 2:
                 System.out.println("Funcionários por ID: ");
+                int idFuncionarios = scanner.nextInt();
                 try {
-                    getFuncionarios(null, null);
+                    getFuncionarios(null, "employee_id = " + String.valueOf(idFuncionarios));
                 } catch (Exception e) {
-                    System.out.println("ERRO: Falha a obter os funcionarios! ");
+                    System.out.println("ERRO: Falha a obter os funcionários! ");
                     e.printStackTrace();
                 }
                 break;
             case 3:
                 System.out.println("Funcionários por nome: ");
+                String nomefuncionarios = scanner.next();
+                try {
+                    getFuncionarios(null, "first_name LIKE '" + String.valueOf(nomefuncionarios) + "'");
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha a obter os funcionários! ");
+                    e.printStackTrace();
+                }
                 break;
             case 4:
-                System.out.println("Funcionários: ");
+                try {
+                    getFuncionarios("*", null);
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha a obter os funcionários! ");
+                    e.printStackTrace();
+                }
                 break;
             case 5:
                 System.out.println("Contactos dos funcionários: ");
@@ -117,10 +131,23 @@ public class Utils {
                 break;
             case 3:
                 System.out.print("Digite o nome: ");
-                float nomedepartamento = scanner.nextFloat();
+                String nomedepartamento = scanner.next();
+                try {
+                    getDepartamentos(null, "department_name LIKE '" + String.valueOf(nomedepartamento) + "'");
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha a obter os departamentos! ");
+                    e.printStackTrace();
+                }
                 break;
             case 4:
-
+                System.out.print("Digite o id da localização: ");
+                int idlocalizacao = scanner.nextInt();
+                try {
+                    getDepartamentos(null, "department_id = " + String.valueOf(idlocalizacao));
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha a obter os departamentos! ");
+                    e.printStackTrace();
+                }
                 break;
 
             case 5:
@@ -193,33 +220,6 @@ public class Utils {
         }
     } 
 
-    // Metodo Listar distritos
-    public static void getDistritos() throws SQLException, Exception {
-        MySQLJDBC instance = MySQLJDBC.getInstance();
-        Connection connection = instance.getConnection();
-        // System.out.println(connection);
-        String query = "SELECT * FROM distrito";
-        // Create Statement
-        Statement stmt = connection.createStatement();
-        // Get Result Set
-        ResultSet rs = stmt.executeQuery(query);
-        System.out.println("\n-----------------------------");
-        System.out.println("| ID |    DISTRITO            |");
-        System.out.println("-------------------------------");
-        // Extract data from Result Set
-        while (rs.next()) {
-            // Retrieve by column name
-            int id = rs.getInt("id_distrito");
-            String d = rs.getString("nome");
-            // Display values
-            System.out.printf("| %-2d | %-20s | %n", id, d);
-        }
-        System.out.println("-----------------------------\n");
-        rs.close();
-        stmt.close();
-
-    }
-
     public static void getFuncionarios(String seccoes, String filtrar) throws SQLException, Exception {
         MySQLJDBC instance = MySQLJDBC.getInstance();
         Connection connection = instance.getConnection();
@@ -241,20 +241,20 @@ public class Utils {
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
         System.out.println("\n------------------------------");
-        System.out.println("| ID |    FUNCIONARIOS          |");
-        System.out.println("--------------------------------");
+        System.out.println("|  ID | FUNCIONARIOS         |");
+        System.out.println("------------------------------");
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
             int id = rs.getInt("employee_id");
-            String d = rs.getString("first_name");
+            String nome = rs.getString("first_name");
+
             // Display values
-            System.out.printf("| %-2d | %-20s | %n", id, d);
+            System.out.printf("| %-2d | %-20s | %n", id, nome);
         }
-        System.out.println("-----------------------------\n");
+        System.out.println("------------------------------\n");
         rs.close();
         stmt.close();
-
     }
 
     public static void criarRelatorio(String query) throws SQLException, Exception {
@@ -332,73 +332,11 @@ public class Utils {
             // Retrieve by column name
             int id = rs.getInt("department_id");
             String d = rs.getString("department_name");
+            int location_id = rs.getInt("location_id");
             // Display values
             System.out.printf("| %-2d | %-20s | %n", id, d);
         }
         System.out.println("-----------------------------\n");
-        rs.close();
-        stmt.close();
-
-    }
-
-    // Metodo Listar concelhos de um Distrito
-    // @param - id do distrito (int)
-    // @return - sem retorno
-    public static void getConcelhos(int distrito) throws SQLException, Exception {
-        MySQLJDBC instance = MySQLJDBC.getInstance();
-        Connection connection = instance.getConnection();
-        // System.out.println(connection);
-        String query = "SELECT id_concelho, nome FROM concelho WHERE id_distrito = " + distrito;
-        // Create Statement
-        Statement stmt = connection.createStatement();
-        // Get Result Set
-        ResultSet rs = stmt.executeQuery(query);
-        // Extract data from Result Set
-        System.out.println("\n-----------------------------");
-        System.out.println("| ID  |    CONCELHOS        |");
-        System.out.println("-----------------------------");
-        while (rs.next()) {
-            // Retrieve by column name
-            int id = rs.getInt("id_concelho");
-            String c = rs.getString("nome");
-            // Display values
-            System.out.printf("| %-2d | %-20s | %n", id, c);
-        }
-        System.out.println("-----------------------------\n");
-        rs.close();
-        stmt.close();
-
-    }
-
-    // Metodo Listar Freguesias de determinado Concelho
-    // @param - id do concelho (int)
-    // @return - sem retorno
-    public static void getFreguesias(int concelho) throws SQLException, Exception {
-        MySQLJDBC instance = MySQLJDBC.getInstance();
-        Connection connection = instance.getConnection();
-        String query = "SELECT f.nome AS freguesia, f.url AS url" +
-                " FROM freguesia AS f WHERE f.id_concelho = " + concelho;
-
-        // Create Statement
-        Statement stmt = connection.createStatement();
-        // Get Result Set
-        ResultSet rs = stmt.executeQuery(query);
-        System.out.println(
-                "\n---------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println(
-                "|                             FREGUESIA                            |                                  URL                              |");
-        System.out.println(
-                "----------------------------------------------------------------------------------------------------------------------------------------");
-        // Extract data from Result Set
-        while (rs.next()) {
-            // Retrieve by column name
-            String f = rs.getString("FREGUESIA");
-            String url = rs.getString("URL");
-            // Display values
-            System.out.printf("|%-65s | %-65s | %n", f, url);
-        }
-        System.out.println(
-                "----------------------------------------------------------------------------------------------------------------------------------------\n");
         rs.close();
         stmt.close();
 
