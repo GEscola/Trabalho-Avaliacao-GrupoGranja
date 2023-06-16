@@ -190,7 +190,7 @@ public class Utils {
                 System.out.print("Digite o nome: ");
                 String nomeDepartamento = scanner.next();
                 try {
-                    getContratoSalarioFuncionarios(null, "nome_departamento = '" + nomeDepartamento + "'");
+                    getDepartamentos(null, "nome_departamento = '" + nomeDepartamento + "'");
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha ao obter os funcionários! ");
                     e.printStackTrace();
@@ -200,7 +200,7 @@ public class Utils {
                 System.out.print("Digite o ano: ");
                 int anoContratacao = scanner.nextInt();
                 try {
-                    getFuncionariosContratadosPorAno(null, anoContratacao);
+                    getDepartamentos(null, String.valueOf(anoContratacao));
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha ao obter os funcionários! ");
                     e.printStackTrace();
@@ -208,7 +208,7 @@ public class Utils {
                 break;
             case 5:
                 try {
-                    getFuncionariosSalarioMinimoMaximo(null);
+                    getDepartamentos(null, null);
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha ao obter os funcionários! ");
                     e.printStackTrace();
