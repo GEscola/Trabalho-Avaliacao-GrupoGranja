@@ -156,26 +156,56 @@ public class Utils {
         System.out.print("Digite opcao: ");
     }
 
-    // Metodo Listar distritos
-    public static void getDistritos() throws SQLException, Exception {
-        MySQLJDBC instance = MySQLJDBC.getInstance();
-        Connection connection = instance.getConnection();
-        // System.out.println(connection);
-        String query = "SELECT * FROM distrito";
-        // Create Statement
-        Statement stmt = connection.createStatement();
-        // Get Result Set
-        ResultSet rs = stmt.executeQuery(query);
-        System.out.println("\n-----------------------------");
-        System.out.println("| ID |    DISTRITO          |");
-        System.out.println("-----------------------------");
-        // Extract data from Result Set
-        while (rs.next()) {
-            // Retrieve by column name
-            int id = rs.getInt("id_distrito");
-            String d = rs.getString("nome");
-            // Display values
-            System.out.printf("| %-2d | %-20s | %n", id, d);
+        Scanner scanner = new Scanner(System.in);
+        int opcao = scanner.nextInt();
+        switch (opcao) {
+            case 0:
+                sair();
+                break;
+            case 1:
+                menuPrint();
+                break;
+            case 2:
+                System.out.print("Digite id: ");
+                int idDepartamento = scanner.nextInt();
+                try {
+                    getDepartamentos(null, "department_id = " + String.valueOf(idDepartamento));
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha ao obter os departamentos! ");
+                    e.printStackTrace();
+                }
+                break;
+            case 3:
+                System.out.print("Digite o nome: ");
+                String nomeDepartamento = scanner.next();
+                try {
+                    getDepartamentos(null, "nome_departamento = '" + nomeDepartamento + "'");
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha ao obter os funcionários! ");
+                    e.printStackTrace();
+                }
+                break;
+            case 4:
+                System.out.print("Digite o ano: ");
+                int anoContratacao = scanner.nextInt();
+                try {
+                    getDepartamentos(null, String.valueOf(anoContratacao));
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha ao obter os funcionários! ");
+                    e.printStackTrace();
+                }
+                break;
+            case 5:
+                try {
+                    getDepartamentos(null, null);
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha ao obter os funcionários! ");
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                System.out.println("Opção inválida!");
+                break;
         }
         System.out.println("-----------------------------\n");
         rs.close();
