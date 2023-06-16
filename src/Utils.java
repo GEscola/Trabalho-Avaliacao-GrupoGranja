@@ -142,8 +142,10 @@ public class Utils {
             case 4:
                 System.out.print("Digite o id da localização: ");
                 int idlocalizacao = scanner.nextInt();
+                System.out.print("Digite o id do departamento: ");
+                int idDepartamento = scanner.nextInt();
                 try {
-                    getDepartamentos(null, "department_id = " + String.valueOf(idlocalizacao));
+                    executarComando("UPDATE employees SET location_id = " + String.valueOf(idlocalizacao) + " WHERE department_id = " + String.valueOf(idDepartamento));
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha a obter os departamentos! ");
                     e.printStackTrace();
@@ -285,7 +287,7 @@ public class Utils {
 
     }
 
-    public static void verificarExistencia(String query,String atributo,String valor) throws SQLException, Exception{
+    public static void executarComando(String query) throws SQLException, Exception{
         MySQLJDBC instance = MySQLJDBC.getInstance();
         Connection connection = instance.getConnection();
         // System.out.println(connection);
@@ -294,14 +296,6 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-
-        while (rs.next()) {
-            if(rs.getString(atributo) == "20"){
-                System.out.println("1");
-            };
-        }
-        rs.close();
-        stmt.close();
     }
 
     public static void getDepartamentos(String seccoes, String filtrar) throws SQLException, Exception {
