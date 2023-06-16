@@ -156,17 +156,69 @@ public class Utils {
         }
     }
 
-    public static void submenuPrint2() {
+    public static void submenuPrint2() throws ClassNotFoundException, SQLException {
         System.out.println("\n+----------------SUBMENU RELATORIOS-------------------------+");
         System.out.println("| 0 - Sair da aplicação                                      |");
-        System.out.println("| 1 - Voltar ao menu incial                                  |");
+        System.out.println("| 1 - Voltar ao menu inicial                                 |");
         System.out.println("| 2 - Relatório: Gerentes e funcionários por departamento    |");
         System.out.println("| 3 - Relatório: Contrato e salário de funcionários          |");
         System.out.println("| 4 - Relatório: Funcionários contratados por ano            |");
         System.out.println("| 5 - Relatório: Funcionários com salário MIN e MAX          |");
         System.out.println("+------------------------------------------------------------+");
         System.out.print("Digite opcao: ");
-    }
+
+        Scanner scanner = new Scanner(System.in);
+        int opcao = scanner.nextInt();
+        switch (opcao) {
+            case 0:
+                sair();
+                break;
+            case 1:
+                menuPrint();
+                break;
+            case 2:
+                System.out.print("Digite id: ");
+                int idDepartamento = scanner.nextInt();
+                try {
+                    getDepartamentos(null, "department_id = " + String.valueOf(idDepartamento));
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha ao obter os departamentos! ");
+                    e.printStackTrace();
+                }
+                break;
+            case 3:
+                System.out.print("Digite o nome: ");
+                String nomeDepartamento = scanner.next();
+                try {
+                    getContratoSalarioFuncionarios(null, "nome_departamento = '" + nomeDepartamento + "'");
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha ao obter os funcionários! ");
+                    e.printStackTrace();
+                }
+                break;
+            case 4:
+                System.out.print("Digite o ano: ");
+                int anoContratacao = scanner.nextInt();
+                try {
+                    getFuncionariosContratadosPorAno(null, anoContratacao);
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha ao obter os funcionários! ");
+                    e.printStackTrace();
+                }
+                break;
+            case 5:
+                try {
+                    getFuncionariosSalarioMinimoMaximo(null);
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha ao obter os funcionários! ");
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                System.out.println("Opção inválida!");
+                break;
+        }
+    } 
 
     public static void getFuncionarios(String seccoes, String filtrar) throws SQLException, Exception {
         MySQLJDBC instance = MySQLJDBC.getInstance();
@@ -201,6 +253,53 @@ public class Utils {
             System.out.printf("| %-2d | %-20s | %n", id, nome);
         }
         System.out.println("------------------------------\n");
+        rs.close();
+        stmt.close();
+    }
+
+    public static void criarRelatorio(String query) throws SQLException, Exception {
+        MySQLJDBC instance = MySQLJDBC.getInstance();
+        Connection connection = instance.getConnection();
+        // System.out.println(connection);
+
+        // Create Statement
+        Statement stmt = connection.createStatement();
+        // Get Result Set
+        ResultSet rs = stmt.executeQuery(query);
+        System.out.println("+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
+        System.out.println("| ID  |         NAME          |  EMAIL    | PHONE_NUMBER    | HIRE_DATE    | JOB_ID     | SALARY    | COMMISSION_PCT  |");
+        System.out.println("+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
+        // Extract data from Result Set
+        while (rs.next()) {
+            // Retrieve by column name
+            String id = rs.getString("employee_id");
+            String d = rs.getString("first_name") +  " " + rs.getString("last_name");
+            String email = rs.getString("email");
+            String number = rs.getString("phone_number");
+            // Display values
+            System.out.printf("| %-2s | %-21s | %-9s | %n", id, d, email, number);
+        }
+        System.out.println("+-----------------------------+-----------+-----------------+--------------+------------+-----------+-----------------+\n");
+        rs.close();
+        stmt.close();
+
+    }
+
+    public static void verificarExistencia(String query,String atributo,String valor) throws SQLException, Exception{
+        MySQLJDBC instance = MySQLJDBC.getInstance();
+        Connection connection = instance.getConnection();
+        // System.out.println(connection);
+
+        // Create Statement
+        Statement stmt = connection.createStatement();
+        // Get Result Set
+        ResultSet rs = stmt.executeQuery(query);
+
+        while (rs.next()) {
+            if(rs.getString(atributo) == "20"){
+                System.out.println("1");
+            };
+        }
         rs.close();
         stmt.close();
     }
