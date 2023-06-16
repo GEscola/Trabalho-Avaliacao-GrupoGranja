@@ -129,7 +129,7 @@ public class Utils {
                 System.out.print("Digite o id da localização: ");
                 int idlocalizacao = scanner.nextInt();
                 try {
-                    getDepartamentos(null, "department_id = " + String.valueOf(idlocalizacao));
+                    getDepartamentos(null, "location_id = " + String.valueOf(idlocalizacao));
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha a obter os departamentos! ");
                     e.printStackTrace();
@@ -240,9 +240,9 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-        System.out.println("\n------------------------------");
-        System.out.println("| ID |    DEPARTAMENTOS        |");
-        System.out.println("--------------------------------");
+        System.out.println("\n+--------------------------+----------------------+");
+        System.out.println("| ID |         NAME        |       LOCATION       |");
+        System.out.println("+--------------------------+----------------------+");
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
@@ -250,9 +250,9 @@ public class Utils {
             String d = rs.getString("department_name");
             int location_id = rs.getInt("location_id");
             // Display values
-            System.out.printf("| %-2d | %-20s | %n", id, d);
+            System.out.printf("| %-2d | %-19s | %n", id, d);
         }
-        System.out.println("-----------------------------\n");
+        System.out.println("---------------------------+-----------------------\n");
         rs.close();
         stmt.close();
 
