@@ -220,7 +220,7 @@ public class Utils {
                 System.out.println("Opção inválida!");
                 break;
         }
-    } 
+    }
 
     public static void getFuncionarios(String seccoes, String filtrar) throws SQLException, Exception {
         MySQLJDBC instance = MySQLJDBC.getInstance();
@@ -268,20 +268,28 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-        System.out.println("+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
-        System.out.println("| ID  |         NAME          |  EMAIL    | PHONE_NUMBER    | HIRE_DATE    | JOB_ID     | SALARY    | COMMISSION_PCT  |");
-        System.out.println("+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
+        System.out.println(
+                "+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
+        System.out.println(
+                "| ID  |         NAME          |  EMAIL    | PHONE_NUMBER    | HIRE_DATE    | JOB_ID     | SALARY    | COMMISSION_PCT  |");
+        System.out.println(
+                "+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
             String id = rs.getString("employee_id");
-            String d = rs.getString("first_name") +  " " + rs.getString("last_name");
+            String d = rs.getString("first_name") + " " + rs.getString("last_name");
             String email = rs.getString("email");
             String number = rs.getString("phone_number");
+            String date = rs.getString("hire_date");
+            String job = rs.getString("job_id");
+            String salary = rs.getString("salary");
+            String pct = rs.getString("commission_pct");
             // Display values
-            System.out.printf("| %-2s | %-21s | %-9s | %n", id, d, email, number);
+            System.out.printf("| %-2s | %-21s | %-9s | %n", id, d, email, number, date, job, salary, pct);
         }
-        System.out.println("+-----------------------------+-----------+-----------------+--------------+------------+-----------+-----------------+\n");
+        System.out.println(
+                "+-----------------------------+-----------+-----------------+--------------+------------+-----------+-----------------+\n");
         rs.close();
         stmt.close();
 
@@ -318,9 +326,9 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-        System.out.println("\n------------------------------");
-        System.out.println("| ID |    DEPARTAMENTOS        |");
-        System.out.println("--------------------------------");
+        System.out.println("\n+--------------------------+----------------------+");
+        System.out.println("| ID |         NAME        |       LOCATION       |");
+        System.out.println("+--------------------------+----------------------+");
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
@@ -328,9 +336,9 @@ public class Utils {
             String d = rs.getString("department_name");
             int location_id = rs.getInt("location_id");
             // Display values
-            System.out.printf("| %-2d | %-20s | %n", id, d);
+            System.out.printf("| %-2d | %-19s | %n", id, d);
         }
-        System.out.println("-----------------------------\n");
+        System.out.println("---------------------------+-----------------------\n");
         rs.close();
         stmt.close();
 
