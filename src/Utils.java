@@ -44,7 +44,7 @@ public class Utils {
     }
 
     // Metodo para imprimir submenu
-    public static void submenuPrint()throws ClassNotFoundException, SQLException {
+    public static void submenuPrint() throws ClassNotFoundException, SQLException {
         System.out.println("\n+-----------------SUBMENU FUNCIONARIOS------------------+");
         System.out.println("| 0 - Sair da aplicação                                 |");
         System.out.println("| 1 - Voltar ao menu incial                             |");
@@ -67,7 +67,7 @@ public class Utils {
             case 2:
                 System.out.println("Funcionários por ID: ");
                 try {
-                    getFuncionarios(null,null);
+                    getFuncionarios(null, null);
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha a obter os funcionarios! ");
                     e.printStackTrace();
@@ -109,7 +109,7 @@ public class Utils {
                 System.out.print("Digite id: ");
                 int iddepartamento = scanner.nextInt();
                 try {
-                getDepartamentos(null, "department_id = " + String.valueOf(iddepartamento));
+                    getDepartamentos(null, "department_id = " + String.valueOf(iddepartamento));
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha a obter os departamentos! ");
                     e.printStackTrace();
@@ -117,18 +117,30 @@ public class Utils {
                 break;
             case 3:
                 System.out.print("Digite o nome: ");
-                float nomedepartamento = scanner.nextFloat();
+                String nomedepartamento = scanner.next();
+                try {
+                    getDepartamentos(null, "department_name LIKE '" + String.valueOf(nomedepartamento) + "'");
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha a obter os departamentos! ");
+                    e.printStackTrace();
+                }
                 break;
             case 4:
-
-                 break;
+                System.out.print("Digite o id da localização: ");
+                int idlocalizacao = scanner.nextInt();
+                try {
+                    getDepartamentos(null, "department_id = " + String.valueOf(idlocalizacao));
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha a obter os departamentos! ");
+                    e.printStackTrace();
+                }
+                break;
 
             case 5:
 
                 break;
 
         }
-        
 
     }
 
@@ -182,8 +194,7 @@ public class Utils {
 
         if (filtrar != null) {
             filtrar = "WHERE " + filtrar;
-        }
-        else{
+        } else {
             filtrar = "";
         }
 
@@ -220,8 +231,7 @@ public class Utils {
 
         if (filtrar != null) {
             filtrar = "WHERE " + filtrar;
-        }
-        else{
+        } else {
             filtrar = "";
         }
 
@@ -238,6 +248,7 @@ public class Utils {
             // Retrieve by column name
             int id = rs.getInt("department_id");
             String d = rs.getString("department_name");
+            int location_id = rs.getInt("location_id");
             // Display values
             System.out.printf("| %-2d | %-20s | %n", id, d);
         }
