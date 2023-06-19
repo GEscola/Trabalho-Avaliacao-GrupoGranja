@@ -3,8 +3,13 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
+
+import javax.print.event.PrintEvent;
 import javax.sql.rowset.serial.SerialDatalink;
 import java.sql.SQLException;
+
+import java.io.PrintWriter;
+import java.io.FileNotFoundException;
 
 public class Utils {
 
@@ -142,8 +147,10 @@ public class Utils {
             case 4:
                 System.out.print("Digite o id da localização: ");
                 int idlocalizacao = scanner.nextInt();
+                System.out.print("Digite o id do departamento: ");
+                int idDepartamento = scanner.nextInt();
                 try {
-                    getDepartamentos(null, "location_id = " + String.valueOf(idlocalizacao));
+                    executarComando("UPDATE departments SET location_id = " + idlocalizacao + " WHERE department_id = " + idDepartamento);
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha a obter os departamentos! ");
                     e.printStackTrace();
@@ -174,6 +181,12 @@ public class Utils {
 
         Scanner scanner = new Scanner(System.in);
         int opcao = scanner.nextInt();
+
+        String globalTemplate = "+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+\n";
+        globalTemplate += "| ID  |         NAME          |  EMAIL    | PHONE_NUMBER    | HIRE_DATE    | JOB_ID     | SALARY    | COMMISSION_PCT  |\n";
+        globalTemplate += "+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+\n";
+
+        String endGlobalTemplate = "+-----------------------------+-----------+-----------------+--------------+------------+-----------+-----------------+\n";
         switch (opcao) {
             case 0:
                 sair();
@@ -182,16 +195,19 @@ public class Utils {
                 menuPrint();
                 break;
             case 2:
-                System.out.print("Digite id: ");
-                int idRelatorio = scanner.nextInt();
+                System.out.print("Digite id do departamento: ");
+                int idDepartamento = scanner.nextInt();
+                
                 try {
-                    getRelatorio(null, "department_id = " + String.valueOf(idRelatorio));
+                    String[][] opcoes = {{"employee_id", "first_name", "last_name", "email","phone_number" ,"hire_date", "job_id","salary","commission_pct","manager_id" , "department_id"}
+                ,{"2","21","9","15","12","13","13","13","13","13","13"}};
+                    criarRelatorio("SELECT * FROM employees WHERE department_id = " + idDepartamento, opcoes, globalTemplate, endGlobalTemplate);
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha ao obter os departamentos! ");
                     e.printStackTrace();
                 }
                 break;
-            case 3:
+            /*case 3:
                 System.out.print("Digite o nome: ");
                 String nomeRelatorio = scanner.next();
                 try {
@@ -218,14 +234,11 @@ public class Utils {
                     System.out.println("ERRO: Falha ao obter os funcionários! ");
                     e.printStackTrace();
                 }
-                break;
+                break;*/
             default:
                 System.out.println("Opção inválida!");
                 break;
         }
-    }
-
-    private static void getRelatorio(Object object, String string) {
     }
 
     public static void getFuncionarios(String seccoes, String filtrar) throws SQLException, Exception {
@@ -265,7 +278,10 @@ public class Utils {
         stmt.close();
     }
 
-    public static void criarRelatorio(String query) throws SQLException, Exception {
+    public static void criarRelatorio(String query, String[][] opcoes, String template, String endTemplate)
+            throws SQLException, Exception {
+        String fileCompsition = "";
+        fileCompsition += template;
         MySQLJDBC instance = MySQLJDBC.getInstance();
         Connection connection = instance.getConnection();
         // System.out.println(connection);
@@ -274,31 +290,57 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-        System.out.println("+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
-        System.out.println("| ID  |         NAME          |  EMAIL    | PHONE_NUMBER    | HIRE_DATE    | JOB_ID     | SALARY    | COMMISSION_PCT  |");
-        System.out.println("+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
+
+        System.out.print(template);
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
-            String id = rs.getString("employee_id");
-            String d = rs.getString("first_name") + " " + rs.getString("last_name");
-            String email = rs.getString("email");
-            String number = rs.getString("phone_number");
-            String date = rs.getString("hire_date");
-            String job = rs.getString("job_id");
-            String salary = rs.getString("salary");
-            String pct = rs.getString("commission_pct");
+            String cur = "";
+            for (int i = 0; i < opcoes[0].length; i++) {
+                cur = rs.getString(opcoes[0][i]);
+                System.out.printf("| %-" + opcoes[1][i] + "s ", cur);
+                fileCompsition += String.format("| %-" + opcoes[1][i] + "s ", cur);
+            }
             // Display values
-            System.out.printf("| %-2s | %-21s | %-12s | %-19s | %16s | %-14s | %-12s | %-20s | %n", id, d, email, number, date, job, salary, pct);
+            System.out.printf("| %n");
+            fileCompsition += String.format("| %n");
         }
-        System.out.println(
-                "+-----------------------------+-----------+-----------------+--------------+------------+-----------+-----------------+\n");
+        System.out.print(endTemplate + "\n");
+
+        fileCompsition += endTemplate;
+
         rs.close();
         stmt.close();
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Deseja converter para um ficheiro? 1- Sim: ");
+        int opcao = scanner.nextInt();
+
+        System.out.print("Insira o nome do relatório (default: relatorio): ");
+        String nomeRelatorio = scanner.next();
+
+        System.out.println(nomeRelatorio);
+        
+        if(nomeRelatorio.length() == 0)
+            nomeRelatorio = "Relatório";
+
+        System.out.println(fileCompsition);
+
+        if (opcao == 1) {
+            try {
+                PrintWriter output = new PrintWriter(nomeRelatorio + ".txt");
+                output.write(fileCompsition);
+                output.close();
+            } catch (FileNotFoundException ex) {
+                System.out.println("Erro: " + ex.getMessage());
+            }
+        } else{
+            menuPrint();
+        }
+
     }
 
-    public static void verificarExistencia(String query, String atributo, String valor) throws SQLException, Exception {
+    public static void executarComando(String query) throws SQLException, Exception {
         MySQLJDBC instance = MySQLJDBC.getInstance();
         Connection connection = instance.getConnection();
         // System.out.println(connection);
@@ -306,16 +348,7 @@ public class Utils {
         // Create Statement
         Statement stmt = connection.createStatement();
         // Get Result Set
-        ResultSet rs = stmt.executeQuery(query);
-
-        while (rs.next()) {
-            if (rs.getString(atributo) == "20") {
-                System.out.println("1");
-            }
-            ;
-        }
-        rs.close();
-        stmt.close();
+        stmt.executeUpdate(query);
     }
 
     public static void getDepartamentos(String seccoes, String filtrar) throws SQLException, Exception {
@@ -349,11 +382,10 @@ public class Utils {
             String location_id = rs.getString("location_id");
              
             // Display values
-            System.out.printf("| %-2s | %-23s | %-20s | %n", id, d, location_id);
+            System.out.printf("| %-3s | %-22s | %-20s | %n", id, d, location_id);
         }
-        System.out.println("+----+--------------------------+----------------------+\n");
+        System.out.println("+------------------------------+----------------------+\n");
         rs.close();
         stmt.close();
-
     }
 }
