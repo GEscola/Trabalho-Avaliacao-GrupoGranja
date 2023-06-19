@@ -50,9 +50,17 @@ Basicamente esses imports permitem que o código em questão se comunique com um
 
 ## Anexos
 
+![unnamed](https://github.com/GEscola/Trabalho-Avaliacao-GrupoGranja/assets/134594770/2e356ec1-6799-4c5d-9602-e621db9fbdf2)
+
+-Método para imprimir Menu
 
 
+![unnamed](https://github.com/GEscola/Trabalho-Avaliacao-GrupoGranja/assets/134594770/72068f88-f805-47d1-81e0-70cc52a7e238)
+
+-Método para imprimir submenu funcionários
 
 
+![unnamed](https://github.com/GEscola/Trabalho-Avaliacao-GrupoGranja/assets/134594770/dbaa6e72-1f78-4c01-8459-3df0b622fd16)
 
+-Método para imprimir submenu departamentos
 

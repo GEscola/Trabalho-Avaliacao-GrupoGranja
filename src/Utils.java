@@ -3,13 +3,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
-
-import javax.print.event.PrintEvent;
 import javax.sql.rowset.serial.SerialDatalink;
 import java.sql.SQLException;
-
-import java.io.PrintWriter;
-import java.io.FileNotFoundException;
 
 public class Utils {
 
@@ -50,7 +45,7 @@ public class Utils {
     }
 
     // Metodo para imprimir submenu
-    public static void submenuPrint() throws ClassNotFoundException, SQLException {
+    public static void submenuPrint() throws ClassNotFoundException, SQLException{
         System.out.println("\n+-----------------SUBMENU FUNCIONARIOS------------------+");
         System.out.println("| 0 - Sair da aplicação                                 |");
         System.out.println("| 1 - Voltar ao menu incial                             |");
@@ -79,6 +74,7 @@ public class Utils {
                     System.out.println("ERRO: Falha a obter os funcionários! ");
                     e.printStackTrace();
                 }
+                submenuPrint();
                 break;
             case 3:
                 System.out.println("Funcionários por nome: ");
@@ -89,6 +85,7 @@ public class Utils {
                     System.out.println("ERRO: Falha a obter os funcionários! ");
                     e.printStackTrace();
                 }
+                submenuPrint();
                 break;
             case 4:
                 try {
@@ -97,12 +94,20 @@ public class Utils {
                     System.out.println("ERRO: Falha a obter os funcionários! ");
                     e.printStackTrace();
                 }
+                submenuPrint();
                 break;
             case 5:
-                System.out.println("Contactos dos funcionários: ");
+                try {
+                    getContactos();
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha a obter os funcionários! ");
+                    e.printStackTrace();
+                }
+                submenuPrint();
                 break;
         }
     }
+
 
     public static void submenuPrint1() throws ClassNotFoundException, SQLException {
         System.out.println("\n+-----------------SUBMENU DEPARTAMENTOS-----------------+");
@@ -150,7 +155,7 @@ public class Utils {
                 System.out.print("Digite o id do departamento: ");
                 int idDepartamento = scanner.nextInt();
                 try {
-                    executarComando("UPDATE departments SET location_id = " + idlocalizacao + " WHERE department_id = " + idDepartamento);
+                    executarComando("UPDATE employees SET location_id = " + String.valueOf(idlocalizacao) + " WHERE department_id = " + String.valueOf(idDepartamento));
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha a obter os departamentos! ");
                     e.printStackTrace();
@@ -158,12 +163,7 @@ public class Utils {
                 break;
 
             case 5:
-                try {
-                    getDepartamentos("*", null);
-                } catch (Exception e) {
-                    System.out.println("ERRO: Falha a obter os funcionários! ");
-                    e.printStackTrace();
-                }
+
                 break;
         }
     }
@@ -197,9 +197,8 @@ public class Utils {
                 menuPrint();
                 break;
             case 2:
-                System.out.print("Digite id do departamento: ");
+                System.out.print("Digite id: ");
                 int idDepartamento = scanner.nextInt();
-                
                 try {
                     criarRelatorio("SELECT * FROM employees WHERE department_id = " + idDepartamento, opcoes, globalTemplate, endGlobalTemplate);
                 } catch (Exception e) {
@@ -241,12 +240,12 @@ public class Utils {
                 break;
             case 5:
                 try {
-                    getRelatorio(null, null);
+                    getDepartamentos(null, null);
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha ao obter os funcionários! ");
                     e.printStackTrace();
                 }
-                break;*/
+                break;
             default:
                 System.out.println("Opção inválida!");
                 break;
@@ -273,27 +272,53 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-        System.out.println("+----------------------------+-----------------+");
-        System.out.println("|  ID | FUNCIONARIOS         | PHONE_NUMBER    |");
-        System.out.println("+----------------------------+-----------------+");
+        System.out.println("\n+-----+----------------------+");
+        System.out.println("|  ID | FUNCIONARIOS         |");
+        System.out.println("+-----+----------------------+");
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
-            String id = rs.getString("employee_id");
-            String d = rs.getString("first_name") + " " + rs.getString("last_name");
-            String number = rs.getString("phone_number");
+            int id = rs.getInt("employee_id");
+            String nome = rs.getString("first_name");
+
             // Display values
-            System.out.printf("| %-2s | %-20s | %-19s | %n", id, d, number );
+            System.out.printf("| %-2d | %-20s | %n", id, nome);
         }
-        System.out.println("+-----+--------------------+----------------+\n");
+        System.out.println("+-----+----------------------+\n");
         rs.close();
         stmt.close();
     }
 
-    public static void criarRelatorio(String query, String[][] opcoes, String template, String endTemplate)
-            throws SQLException, Exception {
-        String fileCompsition = "";
-        fileCompsition += template;
+   public static void getContactos() throws SQLException, Exception {
+        MySQLJDBC instance = MySQLJDBC.getInstance();
+        Connection connection = instance.getConnection();
+        // System.out.println(connection);
+
+        String query = "SELECT * FROM employees ";
+        // Create Statement
+        Statement stmt = connection.createStatement();
+        // Get Result Set
+        ResultSet rs = stmt.executeQuery(query);
+        System.out.println("\n+-----+----------------------+----------------------+");
+        System.out.println("|  ID | FUNCIONARIOS         | PHONE_NUMBER         |");
+        System.out.println("+-----+----------------------+----------------------+");
+        // Extract data from Result Set
+        while (rs.next()) {
+            // Retrieve by column name
+
+            String id = rs.getString("employee_id");
+            String nome = rs.getString("first_name") + " " + rs.getString("last_name");
+            String numero = rs.getString("phone_number");
+
+            // Display values
+            System.out.printf("| %-2s | %-20s | %-20s | %n", id,nome,numero);
+        }
+        System.out.println("+-----+----------------------+----------------------+");
+        rs.close();
+        stmt.close();
+    }
+
+    public static void criarRelatorio(String query) throws SQLException, Exception {
         MySQLJDBC instance = MySQLJDBC.getInstance();
         Connection connection = instance.getConnection();
         // System.out.println(connection);
@@ -302,25 +327,28 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-
-        System.out.print(template);
+        System.out.println(
+                "+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
+        System.out.println(
+                "| ID  |         NAME          |  EMAIL    | PHONE_NUMBER    | HIRE_DATE    | JOB_ID     | SALARY    | COMMISSION_PCT  |");
+        System.out.println(
+                "+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
-            String cur = "";
-            for (int i = 0; i < opcoes[0].length; i++) {
-                cur = rs.getString(opcoes[0][i]);
-                System.out.printf("| %-" + opcoes[1][i] + "s ", cur);
-                fileCompsition += String.format("| %-" + opcoes[1][i] + "s ", cur);
-            }
+            String id = rs.getString("employee_id");
+            String d = rs.getString("first_name") + " " + rs.getString("last_name");
+            String email = rs.getString("email");
+            String number = rs.getString("phone_number");
+            String date = rs.getString("hire_date");
+            String job = rs.getString("job_id");
+            String salary = rs.getString("salary");
+            String pct = rs.getString("commission_pct");
             // Display values
-            System.out.printf("| %n");
-            fileCompsition += String.format("| %n");
+            System.out.printf("| %-2s | %-21s | %-9s | %n", id, d, email, number, date, job, salary, pct);
         }
-        System.out.print(endTemplate + "\n");
-
-        fileCompsition += endTemplate;
-
+        System.out.println(
+                "+-----------------------------+-----------+-----------------+--------------+------------+-----------+-----------------+\n");
         rs.close();
         stmt.close();
 
@@ -352,7 +380,7 @@ public class Utils {
 
     }
 
-    public static void executarComando(String query) throws SQLException, Exception {
+    public static void executarComando(String query) throws SQLException, Exception{
         MySQLJDBC instance = MySQLJDBC.getInstance();
         Connection connection = instance.getConnection();
         // System.out.println(connection);
@@ -360,7 +388,7 @@ public class Utils {
         // Create Statement
         Statement stmt = connection.createStatement();
         // Get Result Set
-        stmt.executeUpdate(query);
+        ResultSet rs = stmt.executeQuery(query);
     }
 
     public static void getDepartamentos(String seccoes, String filtrar) throws SQLException, Exception {
@@ -389,14 +417,13 @@ public class Utils {
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
-            String id = rs.getString("department_id");
+            int id = rs.getInt("department_id");
             String d = rs.getString("department_name");
-            String location_id = rs.getString("location_id");
-             
+            int location_id = rs.getInt("location_id");
             // Display values
-            System.out.printf("| %-3s | %-22s | %-20s | %n", id, d, location_id);
+            System.out.printf("| %-3d | %-22s | %n", id, d, location_id);
         }
-        System.out.println("+------------------------------+----------------------+\n");
+        System.out.println("+------------------------------+-----------------------\n");
         rs.close();
         stmt.close();
     }
