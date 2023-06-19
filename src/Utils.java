@@ -45,7 +45,7 @@ public class Utils {
     }
 
     // Metodo para imprimir submenu
-    public static void submenuPrint() throws ClassNotFoundException, SQLException {
+    public static void submenuPrint() throws ClassNotFoundException, SQLException{
         System.out.println("\n+-----------------SUBMENU FUNCIONARIOS------------------+");
         System.out.println("| 0 - Sair da aplicação                                 |");
         System.out.println("| 1 - Voltar ao menu incial                             |");
@@ -74,6 +74,7 @@ public class Utils {
                     System.out.println("ERRO: Falha a obter os funcionários! ");
                     e.printStackTrace();
                 }
+                submenuPrint();
                 break;
             case 3:
                 System.out.println("Funcionários por nome: ");
@@ -84,6 +85,7 @@ public class Utils {
                     System.out.println("ERRO: Falha a obter os funcionários! ");
                     e.printStackTrace();
                 }
+                submenuPrint();
                 break;
             case 4:
                 try {
@@ -92,9 +94,17 @@ public class Utils {
                     System.out.println("ERRO: Falha a obter os funcionários! ");
                     e.printStackTrace();
                 }
+                submenuPrint();
                 break;
             case 5:
                 System.out.println("Contactos dos funcionários: ");
+                try {
+                    getFuncionarios("phone_number", "employee_id, first_name");
+                } catch (Exception i) {
+                    System.out.println("ERRO: Falha a obter os funcionários! ");
+                    i.printStackTrace();
+                }
+                submenuPrint();
                 break;
         }
     }
@@ -250,9 +260,10 @@ public class Utils {
             // Retrieve by column name
             int id = rs.getInt("employee_id");
             String nome = rs.getString("first_name");
+            String numero = rs.getString("phone_number");
 
             // Display values
-            System.out.printf("| %-2d | %-20s | %n", id, nome);
+            System.out.printf("| %-2d | %-20s | %-20s | %n", id, nome, numero);
         }
         System.out.println("------------------------------\n");
         rs.close();
