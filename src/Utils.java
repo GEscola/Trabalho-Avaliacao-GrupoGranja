@@ -181,6 +181,14 @@ public class Utils {
 
         Scanner scanner = new Scanner(System.in);
         int opcao = scanner.nextInt();
+
+        String globalTemplate = "+-----+-----------------------+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+-------------+----------------+\n";
+        globalTemplate +=       "| ID  |         NAME          |      LAST_NAME        |  EMAIL    | PHONE_NUMBER    | HIRE_DATE    | JOB_ID     | SALARY    | COMMISSION_PCT  | MANAGER_ID  | DEPARTMENT_ID  |\n";
+        globalTemplate +=       "+-----+-----------------------+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+-------------+----------------+\n";
+
+        String endGlobalTemplate = "+-----+-----------------------+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+-------------+----------------+\n";
+         String[][] opcoes = {{"employee_id", "first_name", "last_name", "email","phone_number" ,"hire_date", "job_id","salary","commission_pct","manager_id" , "department_id"}
+                ,{"2","21","21","9","15","12","10","9","15","11","14"}};
         switch (opcao) {
             case 0:
                 sair();
@@ -192,27 +200,39 @@ public class Utils {
                 System.out.print("Digite id: ");
                 int idDepartamento = scanner.nextInt();
                 try {
-                    getDepartamentos(null, "department_id = " + String.valueOf(idDepartamento));
+                    criarRelatorio("SELECT * FROM employees WHERE department_id = " + idDepartamento, opcoes, globalTemplate, endGlobalTemplate);
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha ao obter os departamentos! ");
                     e.printStackTrace();
                 }
                 break;
-            case 3:
-                System.out.print("Digite o nome: ");
-                String nomeDepartamento = scanner.next();
+            case 3:               
+            String template3 = "+-----+-----------------------+-----------------------+--------------+-----------+\n";
+            template3 +=       "| ID  |         NAME          |      LAST_NAME        | HIRE_DATE    | SALARY    |\n";
+            template3 +=       "+-----+-----------------------+-----------------------+--------------+-----------+\n";
+
+            String endtemplate3 = "+-----+-----------------------+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+-------------+----------------+\n";
+            String[][] opcoes3 = {{"employee_id", "first_name", "last_name", "email","phone_number" ,"hire_date", "job_id","salary","commission_pct","manager_id" , "department_id"}
+                    ,{"2","21","21","12","9"}};
                 try {
-                    getDepartamentos(null, "nome_departamento = '" + nomeDepartamento + "'");
+                    criarRelatorio("SELECT * FROM employees WHERE department_id = ", opcoes, globalTemplate, endGlobalTemplate);
                 } catch (Exception e) {
-                    System.out.println("ERRO: Falha ao obter os funcionários! ");
+                    System.out.println("ERRO: Falha ao obter os departamentos! ");
                     e.printStackTrace();
                 }
                 break;
             case 4:
+            String globalTemplate = "+-----+-----------------------+-----------------------+--------------+------------+-----------+-----------------+-------------+----------------+\n";
+            globalTemplate +=       "| ID  |         NAME          |      LAST_NAME        | HIRE_DATE    | JOB_ID     | SALARY    | COMMISSION_PCT  | MANAGER_ID  | DEPARTMENT_ID  |\n";
+            globalTemplate +=       "+-----+-----------------------+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+-------------+----------------+\n";
+
+            String endtemplate4 = "+-----+-----------------------+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+-------------+----------------+\n";
+            String[][] opcoes4 = {{"employee_id", "first_name", "last_name", "email","phone_number" ,"hire_date", "job_id","salary","commission_pct","manager_id" , "department_id"}
+                    ,{"2","21",}};
                 System.out.print("Digite o ano: ");
                 int anoContratacao = scanner.nextInt();
                 try {
-                    getDepartamentos(null, String.valueOf(anoContratacao));
+                    criarRelatorio(null, String.valueOf(anoContratacao));
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha ao obter os funcionários! ");
                     e.printStackTrace();
@@ -331,6 +351,32 @@ public class Utils {
                 "+-----------------------------+-----------+-----------------+--------------+------------+-----------+-----------------+\n");
         rs.close();
         stmt.close();
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Deseja converter para um ficheiro? 1- Sim: ");
+        int opcao = scanner.nextInt();
+
+        System.out.print("Insira o nome do relatório (default[-1]: relatorio): ");
+        String nomeRelatorio = scanner.next();
+
+        System.out.println(nomeRelatorio);
+        
+        if(nomeRelatorio == "-1")
+            nomeRelatorio = "Relatório";
+
+        System.out.println(fileCompsition);
+
+        if (opcao == 1) {
+            try {
+                PrintWriter output = new PrintWriter(nomeRelatorio + ".txt");
+                output.write(fileCompsition);
+                output.close();
+            } catch (FileNotFoundException ex) {
+                System.out.println("Erro: " + ex.getMessage());
+            }
+        } else{
+            menuPrint();
+        }
 
     }
 
