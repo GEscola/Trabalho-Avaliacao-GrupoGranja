@@ -24,6 +24,7 @@ Para garantir a qualidade do código desenvolvido, utilizamos o Test Runner para
 
 
 
+Os desenvolvedores contribuíram de forma significativa para o sucesso do projeto, cada um em sua área de atuação. O desenvolvedor  Gonçalo Neiva trabalhou nas tabelas da base de dados e no resumo, melhorando a eficiência do sistema e fornecendo informações úteis. O Rodrigo Vieira implementou a funcionalidade de departamentos e o menu inicial, tornando o sistema mais intuitivo. Daniel Guerra contribuiu para a gestão eficiente de recursos e a estabilidade do sistema. Gabriel Granja implementou funções para a equipa e para mostrar tabelas, ajudando a equipa a trabalhar de forma produtiva. Bruno Santos trabalhou no relatório, fornecendo informações precisas e úteis aos utilizadores. Cada pessoa que participou tanto no codigo como no relatorio tiveram um papel importante para sucesso do projeto.
 
 
 
