@@ -99,14 +99,17 @@ public class Utils {
             case 5:
                 System.out.println("Contactos dos funcionários: ");
                 try {
-                    getFuncionarios("phone_number", "employee_id, first_name");
-                } catch (Exception i) {
+                    getContactos("phone_number", null);
+                } catch (Exception e) {
                     System.out.println("ERRO: Falha a obter os funcionários! ");
-                    i.printStackTrace();
+                    e.printStackTrace();
                 }
                 submenuPrint();
                 break;
         }
+    }
+
+    private static void getContactos(String string, Object object) {
     }
 
     public static void submenuPrint1() throws ClassNotFoundException, SQLException {
@@ -264,6 +267,33 @@ public class Utils {
 
             // Display values
             System.out.printf("| %-2d | %-20s | %-20s | %n", id, nome, numero);
+        }
+        System.out.println("------------------------------\n");
+        rs.close();
+        stmt.close();
+    }
+
+   public static void getContactos() throws SQLException, Exception {
+        MySQLJDBC instance = MySQLJDBC.getInstance();
+        Connection connection = instance.getConnection();
+        // System.out.println(connection);
+
+        String query = "SELECT * FROM employees ";
+        // Create Statement
+        Statement stmt = connection.createStatement();
+        // Get Result Set
+        ResultSet rs = stmt.executeQuery(query);
+        System.out.println("\n------------------------------");
+        System.out.println("|  ID | FUNCIONARIOS         |");
+        System.out.println("------------------------------");
+        // Extract data from Result Set
+        while (rs.next()) {
+            // Retrieve by column name
+
+            String numero = rs.getString("phone_number");
+
+            // Display values
+            System.out.printf("| %-2d | %-20s | %n", numero);
         }
         System.out.println("------------------------------\n");
         rs.close();
