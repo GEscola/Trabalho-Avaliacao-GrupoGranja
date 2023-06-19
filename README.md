@@ -48,6 +48,9 @@ java.io.FileNotFoundException: representa uma exceção lançada quando um arqui
 
 Basicamente esses imports permitem que o código em questão se comunique com um banco de dados, execute consultas e manipule os resultados, além de permitir a leitura de entrada de utilizadores e a gravação de dados em um documento de texto.
 
+## Anexos
+
+
 
 
 
