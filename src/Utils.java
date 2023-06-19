@@ -3,8 +3,13 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
+
+import javax.print.event.PrintEvent;
 import javax.sql.rowset.serial.SerialDatalink;
 import java.sql.SQLException;
+
+import java.io.PrintWriter;
+import java.io.FileNotFoundException;
 
 public class Utils {
 
@@ -145,7 +150,8 @@ public class Utils {
                 System.out.print("Digite o id do departamento: ");
                 int idDepartamento = scanner.nextInt();
                 try {
-                    executarComando("UPDATE employees SET location_id = " + String.valueOf(idlocalizacao) + " WHERE department_id = " + String.valueOf(idDepartamento));
+                    executarComando("UPDATE employees SET location_id = " + String.valueOf(idlocalizacao)
+                            + " WHERE department_id = " + String.valueOf(idDepartamento));
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha a obter os departamentos! ");
                     e.printStackTrace();
@@ -252,14 +258,20 @@ public class Utils {
             String nome = rs.getString("first_name");
 
             // Display values
-            System.out.printf("| %-2d | %-20s | %n", id, nome);
+            System.out.printf("| %-2d |", id, nome);
+            System.out.printf(" %-20s |", nome);
+            System.out.printf(" %n", nome);
         }
         System.out.println("------------------------------\n");
         rs.close();
         stmt.close();
     }
 
-    public static void criarRelatorio(String query) throws SQLException, Exception {
+    public static void criarRelatorio(String query, String[][] opcoes, String template, String endTemplate,
+            String nomeRelatorio)
+            throws SQLException, Exception {
+        String fileCompsition = "";
+        fileCompsition += template;
         MySQLJDBC instance = MySQLJDBC.getInstance();
         Connection connection = instance.getConnection();
         // System.out.println(connection);
@@ -268,34 +280,49 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-        System.out.println(
-                "+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
-        System.out.println(
-                "| ID  |         NAME          |  EMAIL    | PHONE_NUMBER    | HIRE_DATE    | JOB_ID     | SALARY    | COMMISSION_PCT  |");
-        System.out.println(
-                "+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
+
+        System.out.print(template);
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
-            String id = rs.getString("employee_id");
-            String d = rs.getString("first_name") + " " + rs.getString("last_name");
-            String email = rs.getString("email");
-            String number = rs.getString("phone_number");
-            String date = rs.getString("hire_date");
-            String job = rs.getString("job_id");
-            String salary = rs.getString("salary");
-            String pct = rs.getString("commission_pct");
+            String cur = "";
+            for (int i = 0; i < opcoes[0].length; i++) {
+                cur = rs.getString(opcoes[0][i]);
+                System.out.printf("| %-" + opcoes[1][i] + "s ", cur);
+                fileCompsition += String.format("| %-" + opcoes[1][i] + "s ", cur);
+            }
             // Display values
-            System.out.printf("| %-2s | %-21s | %-9s | %n", id, d, email, number, date, job, salary, pct);
+            System.out.printf("| %n");
+            fileCompsition += String.format("| %n");
         }
-        System.out.println(
-                "+-----------------------------+-----------+-----------------+--------------+------------+-----------+-----------------+\n");
+        System.out.print(endTemplate + "\n");
+
+        fileCompsition += endTemplate;
+
         rs.close();
         stmt.close();
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Deseja converter para um ficheiro? 1- Sim: ");
+        int opcao = scanner.nextInt();
+
+        System.out.println(fileCompsition);
+
+        if (opcao == 1) {
+            try {
+                PrintWriter output = new PrintWriter(nomeRelatorio + ".txt");
+                output.write(fileCompsition);
+                output.close();
+            } catch (FileNotFoundException ex) {
+                System.out.println("Erro: " + ex.getMessage());
+            }
+        } else{
+            menuPrint();
+        }
+
     }
 
-    public static void executarComando(String query) throws SQLException, Exception{
+    public static void executarComando(String query) throws SQLException, Exception {
         MySQLJDBC instance = MySQLJDBC.getInstance();
         Connection connection = instance.getConnection();
         // System.out.println(connection);
