@@ -27,14 +27,23 @@ Os desenvolvedores contribuíram de forma significativa para o sucesso do projet
 
 ## Imports
 java.sql.Connection - fornece métodos para se conectar a um banco de dados e gerenciar essa conexão
+
 java.sql.Date - representa uma data no formato SQL
+
 java.sql.ResultSet - representa um conjunto de resultados de uma consulta SQL e permite a navegação por esses resultados
+
 java.sql.Statement - permite a execução de instruções SQL em um banco de dados
+
 java.util.Scanner - permite a leitura de entrada do usuário a partir do console
+
 javax.print.event.PrintEvent - fornece informações sobre eventos de impressão
+
 javax.sql.rowset.serial.SerialDatalink - representa uma coluna de dados do tipo DATALINK em um banco de dados
+
 java.sql.SQLException - representa uma exceção lançada quando ocorre um erro ao acessar um banco de dados
+
 java.io.PrintWriter - fornece métodos para escrever dados em um arquivo de texto
+
 java.io.FileNotFoundException: representa uma exceção lançada quando um arquivo não é encontrado.
 
 Basicamente esses imports permitem que o código em questão se comunique com um banco de dados, execute consultas e manipule os resultados, além de permitir a leitura de entrada de utilizadores e a gravação de dados em um documento de texto.
