@@ -22,8 +22,7 @@ A extensão Language Support for Java foi instalada para auxiliar na escrita do 
 
 Para garantir a qualidade do código desenvolvido, utilizamos o Test Runner para Java no Visual Studio Code. Essa ferramenta foi útil para automatizar os testes, permitindo que sejam realizados testes de unidade, testes de integração e testes de aceitação de forma mais eficiente e integrada com o ambiente de desenvolvimento. Com ela, conseguimos identificar e corrigir problemas no código de forma mais rápida e efetiva.
 
-
-
+## Participantes e suas funções
 Os desenvolvedores contribuíram de forma significativa para o sucesso do projeto, cada um em sua área de atuação. O desenvolvedor  Gonçalo Neiva trabalhou nas tabelas da base de dados e no resumo, melhorando a eficiência do sistema e fornecendo informações úteis. O Rodrigo Vieira implementou a funcionalidade de departamentos e o menu inicial, tornando o sistema mais intuitivo. Daniel Guerra contribuiu para a gestão eficiente de recursos e a estabilidade do sistema. Gabriel Granja implementou funções para a equipa e para mostrar tabelas, ajudando a equipa a trabalhar de forma produtiva. Bruno Santos trabalhou no relatório, fornecendo informações precisas e úteis aos utilizadores. Cada pessoa que participou tanto no codigo como no relatorio tiveram um papel importante para sucesso do projeto.
 
 
