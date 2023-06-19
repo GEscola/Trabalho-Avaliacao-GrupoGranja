@@ -97,9 +97,8 @@ public class Utils {
                 submenuPrint();
                 break;
             case 5:
-                System.out.println("Contactos dos funcionários: ");
                 try {
-                    getContactos("phone_number", null);
+                    getContactos();
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha a obter os funcionários! ");
                     e.printStackTrace();
@@ -109,8 +108,6 @@ public class Utils {
         }
     }
 
-    private static void getContactos(String string, Object object) {
-    }
 
     public static void submenuPrint1() throws ClassNotFoundException, SQLException {
         System.out.println("\n+-----------------SUBMENU DEPARTAMENTOS-----------------+");
@@ -290,10 +287,12 @@ public class Utils {
         while (rs.next()) {
             // Retrieve by column name
 
+            String id = rs.getString("employee_id");
+            String nome = rs.getString("first");
             String numero = rs.getString("phone_number");
 
             // Display values
-            System.out.printf("| %-2d | %-20s | %n", numero);
+            System.out.printf("| %-2s | %-20s | %-20s | %n", numero);
         }
         System.out.println("------------------------------\n");
         rs.close();
