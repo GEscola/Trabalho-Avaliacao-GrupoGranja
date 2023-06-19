@@ -252,20 +252,19 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-        System.out.println("\n------------------------------");
+        System.out.println("\n+-----+----------------------+");
         System.out.println("|  ID | FUNCIONARIOS         |");
-        System.out.println("------------------------------");
+        System.out.println("+-----+----------------------+");
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
             int id = rs.getInt("employee_id");
             String nome = rs.getString("first_name");
-            String numero = rs.getString("phone_number");
 
             // Display values
-            System.out.printf("| %-2d | %-20s | %-20s | %n", id, nome, numero);
+            System.out.printf("| %-2d | %-20s | %n", id, nome);
         }
-        System.out.println("------------------------------\n");
+        System.out.println("+-----+----------------------+\n");
         rs.close();
         stmt.close();
     }
@@ -280,21 +279,21 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-        System.out.println("\n------------------------------");
-        System.out.println("|  ID | FUNCIONARIOS         |");
-        System.out.println("------------------------------");
+        System.out.println("\n+-----+----------------------+----------------------+");
+        System.out.println("|  ID | FUNCIONARIOS         | PHONE_NUMBER         |");
+        System.out.println("+-----+----------------------+----------------------+");
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
 
             String id = rs.getString("employee_id");
-            String nome = rs.getString("first");
+            String nome = rs.getString("first_name") + " " + rs.getString("last_name");
             String numero = rs.getString("phone_number");
 
             // Display values
-            System.out.printf("| %-2s | %-20s | %-20s | %n", numero);
+            System.out.printf("| %-2s | %-20s | %-20s | %n", id,nome,numero);
         }
-        System.out.println("------------------------------\n");
+        System.out.println("+-----+----------------------+----------------------+");
         rs.close();
         stmt.close();
     }
