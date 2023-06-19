@@ -151,7 +151,12 @@ public class Utils {
                 break;
 
             case 5:
-
+                try {
+                    getDepartamentos("*", null);
+                } catch (Exception e) {
+                    System.out.println("ERRO: Falha a obter os funcionários! ");
+                    e.printStackTrace();
+                }
                 break;
         }
     }
@@ -178,9 +183,9 @@ public class Utils {
                 break;
             case 2:
                 System.out.print("Digite id: ");
-                int idDepartamento = scanner.nextInt();
+                int idRelatorio = scanner.nextInt();
                 try {
-                    getDepartamentos(null, "department_id = " + String.valueOf(idDepartamento));
+                    getRelatorio(null, "department_id = " + String.valueOf(idRelatorio));
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha ao obter os departamentos! ");
                     e.printStackTrace();
@@ -188,9 +193,9 @@ public class Utils {
                 break;
             case 3:
                 System.out.print("Digite o nome: ");
-                String nomeDepartamento = scanner.next();
+                String nomeRelatorio = scanner.next();
                 try {
-                    getDepartamentos(null, "nome_departamento = '" + nomeDepartamento + "'");
+                    getRelatorio(null, "nome_departamento = '" + nomeRelatorio + "'");
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha ao obter os funcionários! ");
                     e.printStackTrace();
@@ -200,7 +205,7 @@ public class Utils {
                 System.out.print("Digite o ano: ");
                 int anoContratacao = scanner.nextInt();
                 try {
-                    getDepartamentos(null, String.valueOf(anoContratacao));
+                    getRelatorio(null, String.valueOf(anoContratacao));
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha ao obter os funcionários! ");
                     e.printStackTrace();
@@ -208,7 +213,7 @@ public class Utils {
                 break;
             case 5:
                 try {
-                    getDepartamentos(null, null);
+                    getRelatorio(null, null);
                 } catch (Exception e) {
                     System.out.println("ERRO: Falha ao obter os funcionários! ");
                     e.printStackTrace();
@@ -218,6 +223,9 @@ public class Utils {
                 System.out.println("Opção inválida!");
                 break;
         }
+    }
+
+    private static void getRelatorio(Object object, String string) {
     }
 
     public static void getFuncionarios(String seccoes, String filtrar) throws SQLException, Exception {
@@ -240,19 +248,19 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-        System.out.println("\n------------------------------");
-        System.out.println("|  ID | FUNCIONARIOS         |");
-        System.out.println("------------------------------");
+        System.out.println("+----------------------------+-----------------+");
+        System.out.println("|  ID | FUNCIONARIOS         | PHONE_NUMBER    |");
+        System.out.println("+----------------------------+-----------------+");
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
-            int id = rs.getInt("employee_id");
-            String nome = rs.getString("first_name");
-
+            String id = rs.getString("employee_id");
+            String d = rs.getString("first_name") + " " + rs.getString("last_name");
+            String number = rs.getString("phone_number");
             // Display values
-            System.out.printf("| %-2d | %-20s | %n", id, nome);
+            System.out.printf("| %-2s | %-20s | %-19s | %n", id, d, number );
         }
-        System.out.println("------------------------------\n");
+        System.out.println("+-----+--------------------+----------------+\n");
         rs.close();
         stmt.close();
     }
@@ -266,12 +274,9 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-        System.out.println(
-                "+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
-        System.out.println(
-                "| ID  |         NAME          |  EMAIL    | PHONE_NUMBER    | HIRE_DATE    | JOB_ID     | SALARY    | COMMISSION_PCT  |");
-        System.out.println(
-                "+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
+        System.out.println("+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
+        System.out.println("| ID  |         NAME          |  EMAIL    | PHONE_NUMBER    | HIRE_DATE    | JOB_ID     | SALARY    | COMMISSION_PCT  |");
+        System.out.println("+-----+-----------------------+-----------+-----------------+--------------+------------+-----------+-----------------+");
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
@@ -284,7 +289,7 @@ public class Utils {
             String salary = rs.getString("salary");
             String pct = rs.getString("commission_pct");
             // Display values
-            System.out.printf("| %-2s | %-21s | %-9s | %n", id, d, email, number, date, job, salary, pct);
+            System.out.printf("| %-2s | %-21s | %-12s | %-19s | %16s | %-14s | %-12s | %-20s | %n", id, d, email, number, date, job, salary, pct);
         }
         System.out.println(
                 "+-----------------------------+-----------+-----------------+--------------+------------+-----------+-----------------+\n");
@@ -333,19 +338,20 @@ public class Utils {
         Statement stmt = connection.createStatement();
         // Get Result Set
         ResultSet rs = stmt.executeQuery(query);
-        System.out.println("\n+--------------------------+----------------------+");
-        System.out.println("| ID |         NAME        |       LOCATION       |");
-        System.out.println("+--------------------------+----------------------+");
+        System.out.println("+------------------------------+----------------------+");
+        System.out.println("| ID |         NAME            |       LOCATION       |");
+        System.out.println("+------------------------------+----------------------+");
         // Extract data from Result Set
         while (rs.next()) {
             // Retrieve by column name
-            int id = rs.getInt("department_id");
+            String id = rs.getString("department_id");
             String d = rs.getString("department_name");
-            int location_id = rs.getInt("location_id");
+            String location_id = rs.getString("location_id");
+             
             // Display values
-            System.out.printf("| %-2d | %-19s | %n", id, d);
+            System.out.printf("| %-2s | %-23s | %-20s | %n", id, d, location_id);
         }
-        System.out.println("---------------------------+-----------------------\n");
+        System.out.println("+----+--------------------------+----------------------+\n");
         rs.close();
         stmt.close();
 
