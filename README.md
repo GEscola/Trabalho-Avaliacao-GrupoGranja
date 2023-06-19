@@ -22,8 +22,45 @@ A extensão Language Support for Java foi instalada para auxiliar na escrita do 
 
 Para garantir a qualidade do código desenvolvido, utilizamos o Test Runner para Java no Visual Studio Code. Essa ferramenta foi útil para automatizar os testes, permitindo que sejam realizados testes de unidade, testes de integração e testes de aceitação de forma mais eficiente e integrada com o ambiente de desenvolvimento. Com ela, conseguimos identificar e corrigir problemas no código de forma mais rápida e efetiva.
 
+## Participantes e suas funções
+Os desenvolvedores contribuíram de forma significativa para o sucesso do projeto, cada um em sua área de atuação. O desenvolvedor  Gonçalo Neiva trabalhou nas tabelas da base de dados e no resumo, melhorando a eficiência do sistema e fornecendo informações úteis. O Rodrigo Vieira implementou a funcionalidade de departamentos e o menu inicial, tornando o sistema mais intuitivo. Daniel Guerra contribuiu para a gestão eficiente de recursos e a estabilidade do sistema. Gabriel Granja implementou funções para a equipa e para mostrar tabelas, ajudando a equipa a trabalhar de forma produtiva. Bruno Santos trabalhou no relatório, fornecendo informações precisas e úteis aos utilizadores. Cada pessoa que participou tanto no código como no relatório tiveram um papel importante para sucesso do projeto.
+
+## Imports
+java.sql.Connection - fornece métodos para se conectar a um banco de dados e gerenciar essa conexão
+
+java.sql.Date - representa uma data no formato SQL
+
+java.sql.ResultSet - representa um conjunto de resultados de uma consulta SQL e permite a navegação por esses resultados
+
+java.sql.Statement - permite a execução de instruções SQL em um banco de dados
+
+java.util.Scanner - permite a leitura de entrada do usuário a partir do console
+
+javax.print.event.PrintEvent - fornece informações sobre eventos de impressão
+
+javax.sql.rowset.serial.SerialDatalink - representa uma coluna de dados do tipo DATALINK em um banco de dados
+
+java.sql.SQLException - representa uma exceção lançada quando ocorre um erro ao acessar um banco de dados
+
+java.io.PrintWriter - fornece métodos para escrever dados em um arquivo de texto
+
+java.io.FileNotFoundException: representa uma exceção lançada quando um arquivo não é encontrado.
+
+Basicamente esses imports permitem que o código em questão se comunique com um banco de dados, execute consultas e manipule os resultados, além de permitir a leitura de entrada de utilizadores e a gravação de dados em um documento de texto.
+
+## Anexos
+
+![unnamed](https://github.com/GEscola/Trabalho-Avaliacao-GrupoGranja/assets/134594770/2e356ec1-6799-4c5d-9602-e621db9fbdf2)
+
+-Método para imprimir Menu
 
 
+![unnamed](https://github.com/GEscola/Trabalho-Avaliacao-GrupoGranja/assets/134594770/72068f88-f805-47d1-81e0-70cc52a7e238)
+
+-Método para imprimir submenu funcionários
 
 
+![unnamed](https://github.com/GEscola/Trabalho-Avaliacao-GrupoGranja/assets/134594770/dbaa6e72-1f78-4c01-8459-3df0b622fd16)
+
+-Método para imprimir submenu departamentos
 
